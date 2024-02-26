@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
-import { serialize } from "cookie";
 
 export async function POST(request) {
   
@@ -15,27 +14,6 @@ export async function POST(request) {
       email: email,
       username: 'yeison'
     }, process.env.SECRET);
-
-    const serialized = serialize('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 1000 * 60 * 60 * 24 * 30,
-      path: '/'
-    });
-
-    // const response = NextResponse.next();
-    // response.cookies.set({
-    //   name: 'token',
-    //   value: token,
-    //   httpOnly: true
-    // });
-
-    // response.cookies.delete('key');
-
-    // return response;
-
-    //return NextResponse.json({ message: 'Login successfully' },{ headers: {'Set-Cookie': serialized} });
     
     return NextResponse.json({ message: 'Login successfully', user: { email, username: 'yeison' }, jwt: token });
   

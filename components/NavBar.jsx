@@ -1,5 +1,7 @@
+"use client"
+
 import { UserContext } from "@/context/UserContext"
-import { useContext, useState } from "react"
+import { useContext } from "react"
 
 export const NavBar = () => {
 

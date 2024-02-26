@@ -2,11 +2,12 @@
 
 import { UserContext } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
+import { deleteCookie } from 'cookies-next';
 
 const DashboardPage = () => {
 
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   const [userData, setUserData] = useState({});
 
@@ -16,7 +17,6 @@ const DashboardPage = () => {
     const res = await fetch('/api/profile');
     const data = await res.json();
     setUserData(data);
-    setUser(data);
   }
 
   const logout = async ()=>{
@@ -26,24 +26,21 @@ const DashboardPage = () => {
       const res = await fetch('/api/auth/logout',{
         method: 'POST'
       });
+
       const data = await res.json();
-      setUserData(data);
+      console.log(data);
+
+      deleteCookie('token');
       setUser({});
       router.push('/login');
-      router.refresh();
 
     } catch (error) {
       console.log(error);
+      deleteCookie('token');
       setUser({});
       router.push('/login');
-      router.refresh();
     }
   }
-
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
-  
 
   return (
     <div>

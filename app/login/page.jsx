@@ -25,8 +25,7 @@ const LoginPage = () => {
 
   const onSubmit = async (e)=>{
     e.preventDefault();
-
-    console.log(credentials);
+    //console.log(credentials);
 
     const res = await fetch('/api/auth/login',{
       method: 'POST',
@@ -36,7 +35,7 @@ const LoginPage = () => {
       body: JSON.stringify(credentials)
     });
 
-    console.log(res);
+    //console.log(res);
 
     const data = await res.json();
 
