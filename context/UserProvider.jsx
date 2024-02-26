@@ -23,7 +23,7 @@ export const UserProvider = ({ children }) => {
         return;
       }
 
-      const secret = new TextEncoder().encode('secret_key');
+      const secret = new TextEncoder().encode(process.env.SECRET);
 
       try {
         const res = await jwtVerify(token, secret);
