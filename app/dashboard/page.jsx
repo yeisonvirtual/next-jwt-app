@@ -1,17 +1,21 @@
 "use client"
 
+import { UserContext } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 const DashboardPage = () => {
 
-  const [user, setUser] = useState({});
+  const { user, setUser } = useContext(UserContext);
+
+  const [userData, setUserData] = useState({});
 
   const router = useRouter();
 
   const getProfile = async ()=>{
     const res = await fetch('/api/profile');
     const data = await res.json();
+    setUserData(data);
     setUser(data);
   }
 
@@ -23,24 +27,28 @@ const DashboardPage = () => {
         method: 'POST'
       });
       const data = await res.json();
-      setUser(data);
+      setUserData(data);
+      setUser({});
       router.push('/login');
+      router.refresh();
 
     } catch (error) {
       console.log(error);
+      setUser({});
       router.push('/login');
+      router.refresh();
     }
   }
 
   useEffect(() => {
-    console.log(user);
-  }, [user]);
+    console.log(userData);
+  }, [userData]);
   
 
   return (
     <div>
       <h1>Dashboard Page</h1>
-      <h3>{JSON.stringify(user)}</h3>
+      <h3>{JSON.stringify(userData)}</h3>
       <button onClick={getProfile}>
         get profile
       </button>

@@ -1,7 +1,10 @@
 "use client"
 
 import { useRouter } from "next/navigation";
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { setCookie } from 'cookies-next';
+import { UserContext } from "@/context/UserContext";
+
 
 const LoginPage = () => {
 
@@ -11,6 +14,8 @@ const LoginPage = () => {
   });
 
   const [error, setError] = useState(null);
+
+  const { setUser } = useContext(UserContext);
 
   const router = useRouter();
 
@@ -35,10 +40,14 @@ const LoginPage = () => {
 
     const data = await res.json();
 
-    console.log(data);
-
     if (res.status===200) {
-    
+      
+      setCookie('token', data.jwt,{
+        maxAge: 1000 * 60 * 60 * 24 * 30,
+        path: '/'
+      });
+
+      setUser(data.user);
       router.push('/dashboard');
       
     } else {

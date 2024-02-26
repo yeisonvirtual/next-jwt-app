@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
 import { jwtVerify } from 'jose';
 
-
 export async function middleware(request) {
 
   const token = request.cookies.get('token');
@@ -17,6 +16,7 @@ export async function middleware(request) {
   try {
     const { payload } = await jwtVerify(token.value, secret);
     console.log(payload);
+    
     return NextResponse.next();
   } catch (error) {
     console.log(error);

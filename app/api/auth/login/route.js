@@ -19,7 +19,7 @@ export async function POST(request) {
     const serialized = serialize('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'lax',
       maxAge: 1000 * 60 * 60 * 24 * 30,
       path: '/'
     });
@@ -31,11 +31,13 @@ export async function POST(request) {
     //   httpOnly: true
     // });
 
-    // response.cookies.delete('token');
+    // response.cookies.delete('key');
 
     // return response;
 
-    return NextResponse.json({ message: 'Login successfully' },{ headers: {'Set-Cookie': serialized} });
+    //return NextResponse.json({ message: 'Login successfully' },{ headers: {'Set-Cookie': serialized} });
+    
+    return NextResponse.json({ message: 'Login successfully', user: { email, username: 'yeison' }, jwt: token });
   
   }
   
