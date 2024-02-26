@@ -1,8 +1,8 @@
 
-const HomePage = () => {
+const IndexPage = () => {
   return (
-    <div>HomePage</div>
+    <div>IndexPage</div>
   )
 }
 
-export default HomePage
+export default IndexPage
